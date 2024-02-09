@@ -1,3 +1,4 @@
+'use client'
 import {
   BanknotesIcon,
   ClockIcon,
@@ -6,6 +7,9 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
+import { useAppDispatch, useAppStore } from '@/lib/hooks';
+import { useRef } from 'react';
+import {fetch, } from '@/lib/features/card/cardSlice';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -21,6 +25,13 @@ export default async function CardWrapper() {
     totalPaidInvoices,
     totalPendingInvoices,
   } = await fetchCardData();
+
+
+  const store = useAppStore();
+  const initialized = useRef(false);
+  if (!initialized.current) {
+    store.dispatch(fetch())
+  }
 
   return (
     <>
