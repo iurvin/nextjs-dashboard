@@ -13,7 +13,7 @@ export const cardSlice = createSlice({
   initialState,
   reducers: {
     fetch: (state) => {
-      debugger;
+     
 
       state.numberOfCustomers = initialState.numberOfCustomers;
       state.numberOfInvoices = initialState.numberOfInvoices;

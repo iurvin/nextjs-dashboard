@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
-import { useAppDispatch, useAppStore } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/lib/hooks';
 import { useRef } from 'react';
 import {fetch, } from '@/lib/features/card/cardSlice';
 
@@ -19,32 +19,35 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
-  const {
-    numberOfInvoices,
-    numberOfCustomers,
-    totalPaidInvoices,
-    totalPendingInvoices,
-  } = await fetchCardData();
+  // const {
+  //   numberOfInvoices,
+  //   numberOfCustomers,
+  //   totalPaidInvoices,
+  //   totalPendingInvoices,
+  // } = await fetchCardData();
 
 
-  const store = useAppStore();
+  // const store = useAppStore();
   const initialized = useRef(false);
   if (!initialized.current) {
-    store.dispatch(fetch())
+    useAppDispatch();
+    initialized.current = true;
   }
+
+  const totalPaidInvoices = useAppSelector((state) => state.totalPaidInvoices)
 
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
       <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      {/* <Card title="Pending" value={totalPendingInvoices} type="pending" /> */}
+      {/* <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
       <Card
         title="Total Customers"
         value={numberOfCustomers}
         type="customers"
-      />
+      /> */}
     </>
   );
 }
