@@ -1,6 +1,6 @@
-import { EnhancedStore, StoreEnhancer, ThunkDispatch, Tuple, UnknownAction, combineReducers, configureStore } from '@reduxjs/toolkit';
-import themeReducer from './features/themeSlice';
-import { IAuthState, authReducer } from './features/authSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {themeReducer} from './features/themeSlice';
+import { authReducer } from './features/authSlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { persistStore } from "redux-persist";
@@ -25,9 +25,9 @@ const rootReducer = combineReducers({
 export const makeStore = () => {
   const store = configureStore({
     reducer: rootReducer,
-    // middleware: (getDefaultMiddleware) => {
-    //   getDefaultMiddleware({ serializableCheck: false })
-    // }
+    middleware: (getDefaultMiddleware) => {
+      return getDefaultMiddleware({ serializableCheck: false })
+    }
   });
 
   persistStore(store);

@@ -1,4 +1,3 @@
-'use client'
 import {
   BanknotesIcon,
   ClockIcon,
@@ -7,7 +6,6 @@ import {
 } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
-import { useAppSelector } from '@/lib/hooks';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -16,28 +14,24 @@ const iconMap = {
   invoices: InboxIcon,
 };
 
-export default function CardWrapper() {
-  // const {
-  //   numberOfInvoices,
-  //   numberOfCustomers,
-  //   totalPaidInvoices,
-  //   totalPendingInvoices,
-  // } = await fetchCardData();
-  const currentTheme = useAppSelector(state => state.theme.currentTheme);
-  console.log('currentTheme', currentTheme);
+export default async function CardWrapper() {
+  const {
+    numberOfInvoices,
+    numberOfCustomers,
+    totalPaidInvoices,
+    totalPendingInvoices,
+  } = await fetchCardData();
   
   return (
     <>
-      {/* NOTE: comment in this code when you get to this point in the course */}
-      <h3>{currentTheme}</h3>
-      {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
+      <Card title="Collected" value={totalPaidInvoices} type="collected" />
       <Card title="Pending" value={totalPendingInvoices} type="pending" />
       <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
       <Card
         title="Total Customers"
         value={numberOfCustomers}
         type="customers"
-      /> */}
+      />
     </>
   );
 }

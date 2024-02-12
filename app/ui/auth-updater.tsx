@@ -2,6 +2,7 @@
 import React from "react";
 import { setAuthState } from "@/lib/features/authSlice";
 import { useAppDispatch } from "@/lib/hooks";
+
 const AuthUpdater = () => {
   const dispatch = useAppDispatch();
   return (

@@ -23,7 +23,6 @@ export default async function Page() {
         <Suspense fallback={<CardsSkeleton />}>
           <Provider>
             <CardWrapper />
-            <ButtonSwitchTheme />
           </Provider>
         </Suspense>
       </div>
@@ -35,12 +34,12 @@ export default async function Page() {
           <LatestInvoices />
         </Suspense>
       </div>
-      <Provider>
+      {/* <Provider>
         <main className="w-full h-screen grid grid-cols-2 place-items-center">
           <AuthUpdater />
           <AuthViewer />
         </main>
-      </Provider>
+      </Provider> */}
     </main>
   );
 }
