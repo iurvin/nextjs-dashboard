@@ -1,11 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import themeReducer from './features/themeSlice';
+import { authReducer } from './features/authSlice';
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       theme: themeReducer,
+      auth: authReducer,
     },
+    // middleware: (getDefaultMiddleware) => {
+    //   getDefaultMiddleware({ serializableCheck: false })
+    // }
   });
 };
 

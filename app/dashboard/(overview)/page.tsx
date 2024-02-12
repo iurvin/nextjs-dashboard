@@ -10,6 +10,8 @@ import {
 } from '@/app/ui/skeletons';
 import { ButtonSwitchTheme } from '@/app/ui/ButtonSwitchTheme';
 import Provider from '@/app/StoreProvider';
+import AuthUpdater from '@/app/ui/auth-updater';
+import AuthViewer from '@/app/ui/auth-viewer';
 
 export default async function Page() {
   return (
@@ -35,6 +37,12 @@ export default async function Page() {
       <Provider>
         <ButtonSwitchTheme />
       </Provider>
+      <Provider>
+      <main className="w-full h-screen grid grid-cols-2 place-items-center">
+        <AuthUpdater />
+        <AuthViewer />
+      </main>
+    </Provider>
     </main>
   );
 }
