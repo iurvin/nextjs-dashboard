@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-enum Themes {
+export enum Themes {
   light = 'light',
   dark = 'dark',
 }
