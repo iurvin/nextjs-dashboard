@@ -10,4 +10,5 @@ const AuthViewer = () => {
     </div>
   );
 };
+
 export default AuthViewer;
