@@ -4,6 +4,7 @@ import {
   UserGroupIcon,
   HomeIcon,
   DocumentDuplicateIcon,
+  ClipboardDocumentCheckIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,6 +20,7 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+  { name: 'Client Page', href: '/dashboard/client-page', icon: ClipboardDocumentCheckIcon },
 ];
 
 export default function NavLinks() {
@@ -35,8 +37,8 @@ export default function NavLinks() {
             className={clsx(
               'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
               {
-                'bg-sky-100 text-blue-600': pathname === link.href
-              }
+                'bg-sky-100 text-blue-600': pathname === link.href,
+              },
             )}
           >
             <LinkIcon className="w-6" />
