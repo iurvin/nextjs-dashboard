@@ -4,4 +4,5 @@ export const Block = styled.div`
   display: flex;
   width: 100%;
   height: auto;
+  margin-bottom: 20px;
 `;
