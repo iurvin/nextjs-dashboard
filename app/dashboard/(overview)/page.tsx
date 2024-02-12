@@ -8,6 +8,7 @@ import {
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
+import { ButtonSwitchTheme } from '@/app/ui/ButtonSwitchTheme';
 
 export default async function Page() {
   return (
@@ -28,6 +29,7 @@ export default async function Page() {
           <LatestInvoices />
         </Suspense>
       </div>
+      <ButtonSwitchTheme />
     </main>
   );
 }

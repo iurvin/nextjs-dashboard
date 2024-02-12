@@ -8,7 +8,7 @@ import {
 import { lusitana } from '@/app/ui/fonts';
 import { fetchCardData } from '@/app/lib/data';
 import { current } from '@reduxjs/toolkit';
-import { useAppSelector } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 
 const iconMap = {
   collected: BanknotesIcon,
@@ -24,7 +24,7 @@ export default async function CardWrapper() {
   //   totalPaidInvoices,
   //   totalPendingInvoices,
   // } = await fetchCardData();
-  const currentTheme = useAppSelector(state => state.theme.currentTheme)
+  const currentTheme = useAppSelector(state => state.theme.currentTheme);
   return (
     <>
       {/* NOTE: comment in this code when you get to this point in the course */}
