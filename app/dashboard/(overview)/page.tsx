@@ -8,10 +8,6 @@ import {
   LatestInvoicesSkeleton,
   CardsSkeleton,
 } from '@/app/ui/skeletons';
-import { ButtonSwitchTheme } from '@/app/ui/ButtonSwitchTheme';
-import Provider from '@/app/StoreProvider';
-import AuthUpdater from '@/app/ui/AuthUpdater';
-import AuthViewer from '@/app/ui/auth-viewer';
 
 export default async function Page() {
   return (
