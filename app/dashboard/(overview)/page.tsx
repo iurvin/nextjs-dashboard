@@ -21,9 +21,7 @@ export default async function Page() {
       </h1>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Suspense fallback={<CardsSkeleton />}>
-          <Provider>
-            <CardWrapper />
-          </Provider>
+          <CardWrapper />
         </Suspense>
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
@@ -34,12 +32,6 @@ export default async function Page() {
           <LatestInvoices />
         </Suspense>
       </div>
-      {/* <Provider>
-        <main className="w-full h-screen grid grid-cols-2 place-items-center">
-          <AuthUpdater />
-          <AuthViewer />
-        </main>
-      </Provider> */}
     </main>
   );
 }
