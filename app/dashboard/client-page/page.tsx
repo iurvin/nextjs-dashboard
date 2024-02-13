@@ -4,12 +4,10 @@ import { Block } from '@/app/ui/block-tmp'
 import Provider from '@/app/StoreProvider';
 import { CurrentThemeViewer } from "@/app/ui/CurrentThemeViewer";
 import { ButtonSwitchTheme } from "@/app/ui/ButtonSwitchTheme";
-import dynamic from "next/dynamic";
+import AuthUpdater from '@/app/ui/AuthUpdater'
+import AuthViewer from '@/app/ui/AuthViewer'
 
 export default function Page() {
-  const NoSSRAuthUpdater = dynamic(() => import('@/app/ui/AuthUpdater'), {ssr: false});
-  const NoSSRAuthViewer = dynamic(() => import('@/app/ui/auth-viewer'), {ssr: false});
-
   return (
     <Provider>
       <main>
@@ -17,8 +15,8 @@ export default function Page() {
           Client Page
         </h1>
           <Block>
-            <NoSSRAuthUpdater />
-            <NoSSRAuthViewer />
+            <AuthUpdater />
+            <AuthViewer />
           </Block>
           <Block>
             <ButtonSwitchTheme />
