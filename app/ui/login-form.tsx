@@ -9,12 +9,58 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
 import {authenticate} from '@/lib/actions';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import axios from 'axios';
+import { FormEvent, useState } from 'react';
 
 export default function LoginForm() {
   const [errMessage, dispatch] = useFormState(authenticate, undefined);
+  const [submit, setSubmit] = useState('');
+
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const handleSubmit = async(): Promise<boolean> => {
+    // e.preventDefault();
+    setSubmit('');
+
+    if(!executeRecaptcha) {
+      console.log('not avaliable to execute recaptcha');
+      return false;
+    }
+
+    const gRecaptchaToken = await executeRecaptcha('inquirySubmit');
+    console.log('gRecaptchaToken', gRecaptchaToken);
+    
+    const response = await axios({
+      method: "post",
+      url: "/api/recaptcha",
+      data: {
+        gRecaptchaToken,
+      },
+      headers: {
+        Accept:  "application/json, text/plain, */*",
+        "Content-Type": 'application/json',
+      }
+    });
+
+    if(response?.data?.success === true) {
+      console.log(`Success with score: ${response?.data?.score}`);
+      setSubmit('Recaptcha Verified and Form Submitted');
+      return true;
+    } else {
+      console.log(`Failure with score: ${response?.data?.score}`);
+      setSubmit('Failed to verify recaptcha! You must be a robot!');
+      return false;
+    }
+  }
 
   return (
-    <form action={dispatch} className="space-y-3">
+    <form action={async(payload) => {
+      console.log('payload', payload);
+      if(await handleSubmit()){
+        dispatch(payload)
+      }
+    }} className="space-y-3" onSubmit={handleSubmit}>
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -61,6 +107,7 @@ export default function LoginForm() {
           </div>
         </div>
         <LoginButton />
+        {submit && <p className='text-lg text-center'>{submit}</p>}
         <div className="flex h-8 items-end space-x-1" aria-live='polite' aria-atomic="true" >
           {errMessage && (
             <>
