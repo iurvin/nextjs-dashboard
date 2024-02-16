@@ -9,28 +9,21 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
 import {authenticate} from '@/lib/actions';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios';
-import { FormEvent, useState } from 'react';
+import { useState, useRef, SyntheticEvent, useEffect } from 'react';
 
 export default function LoginForm() {
   const [errMessage, dispatch] = useFormState(authenticate, undefined);
   const [submit, setSubmit] = useState('');
+  const captchaRef = useRef<ReCAPTCHA>(null)
 
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const handleSubmit = async(): Promise<boolean> => {
-    // e.preventDefault();
-    setSubmit('');
+  const handleSubmit = async (e?: SyntheticEvent<HTMLFormElement, SubmitEvent>) =>{
+    e?.preventDefault();
+    const gRecaptchaToken = captchaRef?.current?.getValue();
+    console.log('gRecaptchaToken', gRecaptchaToken)
 
-    if(!executeRecaptcha) {
-      console.log('not avaliable to execute recaptcha');
-      return false;
-    }
-
-    const gRecaptchaToken = await executeRecaptcha('inquirySubmit');
-    console.log('gRecaptchaToken', gRecaptchaToken);
-    
     const response = await axios({
       method: "post",
       url: "/api/recaptcha",
@@ -43,6 +36,9 @@ export default function LoginForm() {
       }
     });
 
+    console.log('response.data', response?.data);
+    
+
     if(response?.data?.success === true) {
       console.log(`Success with score: ${response?.data?.score}`);
       setSubmit('Recaptcha Verified and Form Submitted');
@@ -54,13 +50,21 @@ export default function LoginForm() {
     }
   }
 
+  useEffect(() => {
+    return () => {
+      captchaRef?.current?.reset();
+    }
+  }, []);
+
   return (
     <form action={async(payload) => {
       console.log('payload', payload);
       if(await handleSubmit()){
-        dispatch(payload)
+        console.log('before dispatch', payload);
+        
+        dispatch(payload);
       }
-    }} className="space-y-3" onSubmit={handleSubmit}>
+    }} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -105,6 +109,12 @@ export default function LoginForm() {
               <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+        </div>
+        <div className="mt-4">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_KEY}
+            ref={captchaRef}
+          />
         </div>
         <LoginButton />
         {submit && <p className='text-lg text-center'>{submit}</p>}
